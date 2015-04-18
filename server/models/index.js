@@ -24,6 +24,16 @@ module.exports = {
       console.log(reqBody.username);  
       var message = 'insert into messages values("' + reqBody.text + '", (select user_id from users where username="' + reqBody.username + '"), (select room_id from rooms where roomname="' + reqBody.roomname + '"), null);';
 
+      var insertUser = function() {
+        db.query(message, function(err, results) {
+          if (err) {
+            console.log(err);
+          } else {
+            cb(results);
+          }
+        });
+      };
+
       // check if user exists, if not, make   user
       var findUser = 'select * from users where username="' + reqBody.username + '");';
       console.log("findUSEr", findUser);
@@ -33,21 +43,9 @@ module.exports = {
           db.query('insert into users values("' + reqBody.username + '", null);', function(err, result) {
             console.log("result", result);
           });
-          db.query(message, function(err, results) {
-            if (err) {
-              console.log(err);
-            } else {
-              cb(results);
-            }
-          });
+          insertUser();
         } else {
-          db.query(message, function(err, results) {
-            if (err) {
-              console.log(err);
-            } else {
-              cb(results);
-            }
-          });
+          insertUser();
         }
       });
     } // a function which can be used to insert a message into the database
