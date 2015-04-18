@@ -141,11 +141,12 @@ $(document).ready(function () {
 
     addMessage: function (message) {
       message.text = app.escapeHtml(message.text);
+      console.log(message);
 
-      if (_.contains(app.friends, message.username)) {
+      if (_.contains(app.friends, message.User.username)) {
         message.text = '<strong>' + message.text + '</strong>';
       }
-      $('#chats').prepend('<div class="chat"><span class="username">' + message.username + '</span>: ' + message.text + ' | ' + message.roomname + '</div>');
+      $('#chats').prepend('<div class="chat"><span class="username">' + message.User.username + '</span>: ' + message.text + ' | ' + message.roomname + '</div>');
     },
 
     addRoom: function (roomname) {
