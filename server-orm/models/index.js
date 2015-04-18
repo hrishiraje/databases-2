@@ -25,27 +25,27 @@ Message.belongsTo(User);
 //   console.log('saved!');
 // });
 
-Message.findAll({
-  include: [User]
-}).complete(function(err, results) {
-  results.forEach(function(item) {
-    console.log(item.dataValues.User.dataValues);
-  })
-});
+// Message.findAll({
+//   include: [User]
+// }).complete(function(err, results) {
+//   results.forEach(function(item) {
+//     console.log(item.dataValues.User.dataValues);
+//   })
+// });
 
-User.findOrCreate({
-  where: {
-    username: 'Vincent'
-  }
-}).success(function(user, created) {
-  Message.build({
-    text: 'I am bart',
-    roomname: 'room1',
-    UserId: user.get('id')
-  }).save().success(function() {
-    console.log('message saved!');
-  });
-})
+// User.findOrCreate({
+//   where: {
+//     username: 'Vincent'
+//   }
+// }).success(function(user, created) {
+//   Message.build({
+//     text: 'I am bart',
+//     roomname: 'room1',
+//     UserId: user.get('id')
+//   }).save().success(function() {
+//     console.log('message saved!');
+//   });
+// })
 
 
 //   /* This callback function is called once sync succeeds. */
@@ -95,7 +95,19 @@ module.exports = {
       });
     }, // a function which produces all the messages
     post: function (reqBody, cb) {
-
+      User.findOrCreate({
+        where: {
+          username: reqBody.username
+        }
+      }).success(function(user, created) {
+        Message.build({
+          text: reqBody.text,
+          roomname: reqBody.roomname,
+          UserId: user.get('id')
+        }).save().success(function() {
+          console.log('message saved!');
+        });
+      })
     },
   },
   users: {
