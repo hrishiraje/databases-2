@@ -10,7 +10,7 @@ $(document).ready(function () {
     rooms: [],
 
     roomname: 'all',
-    username: "Vincent",
+    username: "Billy",
 
     init: function () {
 
