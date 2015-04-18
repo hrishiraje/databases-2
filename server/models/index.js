@@ -33,15 +33,23 @@ module.exports = {
           db.query('insert into users values("' + reqBody.username + '", null);', function(err, result) {
             console.log("result", result);
           });
+          db.query(message, function(err, results) {
+            if (err) {
+              console.log(err);
+            } else {
+              cb(results);
+            }
+          });
+        } else {
+          db.query(message, function(err, results) {
+            if (err) {
+              console.log(err);
+            } else {
+              cb(results);
+            }
+          });
         }
       });
-      // db.query(message, function(err, results) {
-      //   if (err) {
-      //     console.log(err);
-      //   } else {
-      //     cb(results);
-      //   }
-      // });
     } // a function which can be used to insert a message into the database
   },
 
